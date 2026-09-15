@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fffafa">
+  <title>宅トレタイプ診断 | GLOW28</title>
+  <style>
+    :root{--coral:#ff7a8a;--coral-deep:#ef6074;--mint:#7fd8c4;--mint-deep:#43bca2;--ink:#322d34;--muted:#746d76;--paper:#fffdfc;--soft:#fff4f3;--line:#f0e6e5}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;font-size:18px;line-height:1.7;background:#fffafa;overflow-x:hidden}
+    body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(4px);opacity:.55}
+    body:before{width:300px;height:300px;right:-170px;top:-90px;background:radial-gradient(circle,#ffd2d8,transparent 68%)}
+    body:after{width:330px;height:330px;left:-210px;bottom:-90px;background:radial-gradient(circle,#c8f3e9,transparent 68%)}
+    button,a,input{font:inherit}
+    button,a{-webkit-tap-highlight-color:transparent}
+    button{border:0}
+    .shell{width:min(100%,480px);min-height:100vh;margin:auto;padding:0 20px 48px}
+    .brand{display:flex;align-items:center;justify-content:space-between;padding:22px 2px 10px;letter-spacing:.08em}
+    .logo{font-size:21px;font-weight:800}.logo i{font-style:normal;color:var(--coral)}
+    .brand small{font-size:12px;color:var(--muted);letter-spacing:.04em}
+    .view{display:none}.view.active{display:block;animation:rise .55s cubic-bezier(.2,.8,.2,1) both}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .hero{padding:50px 4px 24px;text-align:center}
+    .kicker{display:inline-flex;align-items:center;gap:9px;margin:0 0 18px;padding:7px 14px;border:1px solid rgba(255,122,138,.22);border-radius:999px;color:var(--coral-deep);background:rgba(255,255,255,.72);font-size:14px;font-weight:700}
+    .kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--mint))}
+    h1{margin:0;font-size:clamp(38px,11vw,52px);line-height:1.18;letter-spacing:-.04em}
+    .gradient-text{color:transparent;background:linear-gradient(110deg,var(--coral-deep),#ff968d 45%,var(--mint-deep));-webkit-background-clip:text;background-clip:text}
+    .lead{margin:21px auto 28px;color:var(--muted);font-size:18px}
+    .hero-art{position:relative;height:185px;margin:10px 0 30px;border-radius:36px;background:linear-gradient(140deg,#fff0ef,#f0fbf8);overflow:hidden}
+    .hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.8)}
+    .hero-art:before{width:180px;height:180px;left:-40px;top:-60px;background:rgba(255,122,138,.12)}
+    .hero-art:after{width:160px;height:160px;right:-35px;bottom:-70px;background:rgba(127,216,196,.2)}
+    .figure{position:absolute;inset:28px 0 0;margin:auto;width:100px;height:145px}
+    .figure .head{position:absolute;left:38px;width:29px;height:29px;border-radius:50%;background:linear-gradient(135deg,var(--coral),#ffab9f)}
+    .figure .body{position:absolute;left:31px;top:34px;width:42px;height:70px;border-radius:30px 30px 17px 17px;background:linear-gradient(155deg,var(--coral),var(--mint))}
+    .figure .arm,.figure .leg{position:absolute;height:12px;border-radius:99px;background:#75ccb9;transform-origin:6px 6px}
+    .figure .arm.a{width:58px;left:48px;top:49px;transform:rotate(-36deg)}.figure .arm.b{width:58px;left:-5px;top:48px;transform:rotate(216deg)}
+    .figure .leg.a{width:68px;left:49px;top:94px;transform:rotate(67deg)}.figure .leg.b{width:68px;left:-5px;top:94px;transform:rotate(113deg)}
+    .meta-row{display:flex;justify-content:center;gap:20px;margin-top:18px;color:var(--muted);font-size:14px}
+    .meta-row span{display:flex;align-items:center;gap:7px}.meta-row span:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint)}
+    .primary,.secondary,.share-btn{width:100%;min-height:58px;border-radius:18px;cursor:pointer;font-weight:800;text-decoration:none;display:flex;align-items:center;justify-content:center;transition:transform .2s,filter .2s}
+    .primary{color:white;background:linear-gradient(110deg,var(--coral),#ff978c);box-shadow:0 12px 28px rgba(239,96,116,.2)}
+    .primary:hover,.secondary:hover,.share-btn:hover{transform:translateY(-2px);filter:saturate(1.06)}
+    .primary:active,.secondary:active,.share-btn:active{transform:scale(.98)}
+    .quiz-head{position:sticky;top:0;z-index:5;padding:12px 0 14px;background:linear-gradient(#fffafa 76%,transparent)}
+    .progress-copy{display:flex;justify-content:space-between;align-items:center;margin:0 2px 8px;color:var(--muted);font-size:14px}
+    .progress-copy b{color:var(--coral-deep);font-size:16px}
+    .track{height:6px;border-radius:9px;background:#f3e6e5;overflow:hidden}
+    .fill{width:14.285%;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--coral),var(--mint));transition:width .45s cubic-bezier(.2,.8,.2,1)}
+    .question{padding:28px 0 0}
+    .q-no{color:var(--coral-deep);font-size:13px;font-weight:800;letter-spacing:.14em}
+    h2{margin:9px 0 23px;font-size:28px;line-height:1.4;letter-spacing:-.02em}
+    .choices{display:grid;gap:12px}
+    .choice{position:relative;width:100%;min-height:64px;padding:15px 48px 15px 18px;border:1px solid rgba(255,122,138,.13);border-radius:20px;color:var(--ink);background:rgba(255,255,255,.82);text-align:left;cursor:pointer;transition:.2s}
+    .choice:after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-top:2px solid var(--coral);border-right:2px solid var(--coral);transform:translateY(-50%) rotate(45deg)}
+    .choice:hover{border-color:rgba(255,122,138,.45);background:#fff;transform:translateY(-2px)}
+    .choice.selected{color:var(--coral-deep);border-color:var(--coral);background:#fff4f3}
+    .back{margin-top:24px;padding:10px 2px;color:var(--muted);background:transparent;cursor:pointer;font-size:15px}
+    .measure-grid{display:grid;gap:15px}
+    label.measure{display:block;padding:14px 16px 12px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.85);font-size:14px;color:var(--muted)}
+    .input-wrap{display:flex;align-items:center;margin-top:4px}.input-wrap input{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-size:28px;font-weight:750}.unit{color:var(--muted);font-size:16px}
+    .notice{display:none;margin:15px 0 0;padding:13px 15px;border-radius:14px;color:#8b4f39;background:#fff2e8;font-size:14px}.notice.show{display:block;animation:rise .3s both}
+    .measure-submit{margin-top:20px}.measure-submit:disabled{cursor:not-allowed;opacity:.45;box-shadow:none}
+    .result-top{margin:20px 0 18px;padding:34px 25px;border-radius:32px;background:linear-gradient(145deg,#fff0ef 0%,#fff 48%,#eaf9f5);text-align:center}
+    .result-label{margin:0;color:var(--muted);font-size:14px;letter-spacing:.08em}.type-name{margin:7px 0 8px;font-size:38px;line-height:1.25;color:var(--coral-deep)}
+    .type-desc{margin:0;color:var(--muted)}
+    .period{margin-top:22px;padding:13px;border-radius:15px;background:rgba(255,255,255,.72);font-size:15px}.period b{color:var(--coral-deep)}
+    .section-card{margin-top:16px;padding:23px 20px;border:1px solid rgba(255,255,255,.9);border-radius:26px;background:rgba(255,255,255,.79);box-shadow:0 16px 45px rgba(82,62,65,.055)}
+    .eyebrow{margin:0 0 5px;color:var(--mint-deep);font-size:12px;font-weight:800;letter-spacing:.13em}.section-card h3{margin:0 0 10px;font-size:23px;line-height:1.45}.section-card p{margin:0;color:var(--muted)}
+    .move{display:flex;align-items:center;gap:16px}.move-icon{flex:0 0 55px;height:55px;border-radius:18px;background:linear-gradient(135deg,var(--coral),var(--mint));position:relative}.move-icon:after{content:"";position:absolute;inset:17px;border:2px solid #fff;border-radius:50%}
+    .weeks{display:grid;gap:10px;margin-top:16px}.week{display:grid;grid-template-columns:56px 1fr;gap:13px;align-items:center;padding:12px;border-radius:16px;background:#fff8f7}.week:nth-child(even){background:#effaf7}.week b{color:var(--coral-deep);font-size:14px}.week:nth-child(even) b{color:#329b84}.week span{font-size:15px;color:var(--muted)}
+    .actions{display:grid;gap:11px;margin-top:18px}.secondary{border:1px solid rgba(127,216,196,.5);color:#278f79;background:#effaf7}.share-btn{margin-top:11px;color:var(--coral-deep);background:#fff;border:1px solid rgba(255,122,138,.25)}
+    .share-preview{display:none;width:100%;margin-top:12px;border-radius:20px}.share-preview.show{display:block;animation:rise .4s both}.share-note{margin-top:8px!important;text-align:center;font-size:12px}
+    .safety{padding:18px 10px 4px;text-align:center;color:#8b828a;font-size:12px}
+    .restart{display:block;margin:16px auto 8px;padding:8px 14px;color:var(--muted);background:transparent;text-decoration:underline;cursor:pointer;font-size:14px}
+    .ai-hints{margin-top:24px;padding:23px 20px;border-radius:25px;background:linear-gradient(135deg,#303037,#45434a);color:#fff}.ai-hints h3{margin:0 0 13px;font-size:19px}.ai-hints ol{margin:0;padding-left:22px;color:#efedf0;font-size:15px}.ai-hints li+li{margin-top:8px}
+    .footer{text-align:center;padding:28px 0 8px;color:#999096;font-size:12px}
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+    @media (max-width:374px){.shell{padding-inline:15px}h1{font-size:36px}.question h2{font-size:25px}.type-name{font-size:34px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="brand"><div class="logo">GLOW<i>28</i></div><small>1日3分からの宅トレ習慣</small></header>
+
+    <section id="intro" class="view active">
+      <div class="hero">
+        <p class="kicker">7問・約1分</p>
+        <h1>あなたに合う<br><span class="gradient-text">宅トレの始め方</span>は？</h1>
+        <p class="lead">続かなかったのは、あなたのせいじゃない。<br>今の暮らしに合う最初の1種目を見つけよう。</p>
+        <div class="hero-art" aria-hidden="true"><div class="figure"><i class="head"></i><i class="body"></i><i class="arm a"></i><i class="arm b"></i><i class="leg a"></i><i class="leg b"></i></div></div>
+        <button id="start" class="primary" type="button">診断をはじめる</button>
+        <div class="meta-row"><span>器具なし</span><span>片手で回答</span><span>無料</span></div>
+      </div>
+    </section>
+
+    <section id="quiz" class="view" aria-live="polite">
+      <div class="quiz-head"><div class="progress-copy"><span>宅トレタイプ診断</span><b id="progressText">1／7</b></div><div class="track"><div id="progressFill" class="fill"></div></div></div>
+      <div id="questionBox"></div>
+    </section>
+
+    <section id="result" class="view">
+      <div class="result-top">
+        <p class="result-label">あなたの宅トレタイプは</p>
+        <h2 id="typeName" class="type-name"></h2>
+        <p id="typeDesc" class="type-desc"></p>
+        <div id="period" class="period"></div>
+      </div>
+      <div class="section-card move"><div class="move-icon" aria-hidden="true"></div><div><p class="eyebrow">FIRST MOVE</p><h3 id="firstMove"></h3><p id="moveHow"></p></div></div>
+      <div class="section-card"><p class="eyebrow">BEST TIMING</p><h3>おすすめの時間帯</h3><p id="bestTime"></p></div>
+      <div class="section-card"><p class="eyebrow">VIDEO THEME</p><h3>あなたに合う動画テーマ</h3><p id="videoTheme"></p></div>
+      <div class="section-card"><p class="eyebrow">28 DAY FLOW</p><h3>小さく始める28日の流れ</h3><div class="weeks"><div class="week"><b>1週目</b><span>1種目だけ。始める合図を決める</span></div><div class="week"><b>2週目</b><span>慣れたら2種目へ。短いままでOK</span></div><div class="week"><b>3週目</b><span>3種目を自分のペースでつなげる</span></div><div class="week"><b>4週目</b><span>3種目を続けて、できた日を記録</span></div></div></div>
+      <div class="actions"><a id="xLink" class="primary" target="_blank" rel="noopener">@glow28_jp をフォローして動画を見る</a><a id="appLink" class="secondary" target="_blank" rel="noopener">GLOW28アプリで28日プランを始める</a></div>
+      <button id="share" class="share-btn" type="button">シェア画像を作る</button>
+      <canvas id="shareCanvas" width="1080" height="1350" hidden></canvas><img id="sharePreview" class="share-preview" alt="診断結果のシェア画像"><p id="shareNote" class="share-note"></p>
+      <p class="safety">無理のない範囲で。痛みがあれば中止してください</p>
+      <button id="restart" class="restart" type="button">診断をやり直す</button>
+      <div class="ai-hints"><h3>この画面でAIに頼むと良いこと</h3><ol><li>この結果をもとに、1週目の予定表を作って</li><li>15秒から始められる声かけリストを作って</li><li>28日分の記録テンプレートを作って</li></ol></div>
+    </section>
+    <footer class="footer">GLOW28 · @glow28_jp</footer>
+  </main>
+
+  <script>
+    const X_PROFILE_URL = 'https://x.com/glow28_jp';
+    const APP_URL = 'https://x.com/glow28_jp';
+    const ANSWERS_KEY = 'glow28.shindan.answers';
+    const RESULT_KEY = 'glow28.shindan.result';
+
+    const TYPES = {
+      rest:{name:'ねたまま整えタイプ',desc:'がんばりすぎず、休息前の小さな動きから整えるのが得意なタイプ。',move:'ヒップリフト 15秒',how:'仰向けで膝を立て、お尻をゆっくり上げ下げします。',time:'夜、寝る前の落ち着いた時間',video:'寝たまま脚メドレー・寝る前のほぐし'},
+      morning:{name:'朝スイッチタイプ',desc:'朝の短い運動を合図にして、気持ちよく習慣を育てられるタイプ。',move:'その場マーチ 15秒',how:'背すじを楽に伸ばし、その場で左右の膝を交互に上げます。',time:'朝、起きて身支度を始める前',video:'朝の目覚まし・全身3分'},
+      belly:{name:'下腹集中タイプ',desc:'気になる場所を入口に、丁寧な動きでお腹まわりを整えたいタイプ。',move:'レッグレイズ 15秒',how:'仰向けで膝を軽く曲げ、腰が浮かない範囲で脚を動かします。',time:'食後すぐを避けた、落ち着いて動ける時間',video:'下腹・お腹まわり・くびれ'},
+      lower:{name:'下半身しぼりタイプ',desc:'大きな筋肉を動かして、下半身をすっきり動かしやすくしたいタイプ。',move:'ワイドスクワット 15秒',how:'足を広めに開き、膝とつま先を同じ方向にして浅く上下します。',time:'昼から夕方の、体が動かしやすい時間',video:'お尻・内もも・脚のむくみケア'},
+      upper:{name:'上半身すっきりタイプ',desc:'肩まわりや腕から、姿勢を意識できる軽やかな動きを始めたいタイプ。',move:'ウォールプッシュアップ 15秒',how:'壁に両手をつき、体をまっすぐ保って腕をゆっくり曲げ伸ばします。',time:'仕事や家事の区切りになる、すきま時間',video:'二の腕・肩・巻き肩ケア'},
+      quick:{name:'すきま3分タイプ',desc:'予定を固定せず、できる瞬間を味方にすると続きやすいタイプ。',move:'スクワット 15秒',how:'椅子に座るようにお尻を後ろへ引き、無理のない深さで戻ります。',time:'昼のすきま時間や、思い出したタイミング',video:'全身3分・骨盤まわり'}
+    };
+
+    const QUESTIONS = [
+      {title:'いちばん気になるところは？',choices:[['下腹・お腹まわり',{belly:5}],['お尻・太もも',{lower:5}],['二の腕',{upper:5}],['肩・巻き肩',{upper:5}],['脚のむくみ',{lower:4,rest:1}],['全身をなんとなく',{quick:3,morning:1}]]},
+      {title:'運動する時間が取りやすいのは？',choices:[['朝、起きてすぐ',{morning:5}],['昼、すきま時間',{quick:4,lower:1}],['夜、寝る前',{rest:5}],['決まっていない',{quick:5}]]},
+      {title:'動ける姿勢は？',choices:[['寝たままがいい',{rest:5,belly:1}],['座ってならできる',{upper:3,quick:2}],['立ってしっかり動きたい',{lower:3,morning:2}],['その日による',{quick:5}]]},
+      {title:'いままで続かなかった理由は？',choices:[['きつくて挫折',{rest:5}],['やり方がわからない',{belly:2,upper:2,lower:1}],['時間がない',{quick:5}],['効果を感じられない',{belly:2,lower:2,upper:2}],['続けたことがない',{morning:4,quick:1}]]},
+      {title:'1日に使えるのは？',choices:[['3分',{quick:5}],['5分',{rest:3,morning:2}],['10分',{belly:2,lower:2,upper:2}],['15分以上',{lower:3,morning:2}]]},
+      {title:'目標は？',choices:[['見た目を整えたい',{belly:2,lower:2,upper:2}],['体を軽くしたい',{rest:2,lower:2,quick:1}],['習慣をつけたい',{morning:5}],['姿勢をよくしたい',{upper:5,rest:1}]]}
+    ];
+
+    let answers = [];
+    let current = 0;
+    const $ = id => document.getElementById(id);
+    const views = ['intro','quiz','result'];
+    function showView(id){views.forEach(v=>$(v).classList.toggle('active',v===id));window.scrollTo({top:0,behavior:'smooth'});}
+    function saveAnswers(){localStorage.setItem(ANSWERS_KEY,JSON.stringify(answers));}
+    function renderQuestion(){
+      $('progressText').textContent=`${current+1}／7`;$('progressFill').style.width=`${(current+1)/7*100}%`;
+      if(current<6){
+        const q=QUESTIONS[current];
+        $('questionBox').innerHTML=`<div class="question"><div class="q-no">QUESTION ${current+1}</div><h2>${q.title}</h2><div class="choices">${q.choices.map((c,i)=>`<button class="choice ${answers[current]?.choice===i?'selected':''}" data-choice="${i}" type="button">${c[0]}</button>`).join('')}</div>${current?'<button class="back" type="button">前の質問に戻る</button>':''}</div>`;
+        document.querySelectorAll('[data-choice]').forEach(btn=>btn.onclick=()=>choose(Number(btn.dataset.choice)));
+      }else renderMeasures();
+      const back=document.querySelector('.back');if(back)back.onclick=goBack;
+    }
+    function choose(index){
+      const q=QUESTIONS[current];answers[current]={choice:index,label:q.choices[index][0],scores:q.choices[index][1]};answers=answers.slice(0,current+1);saveAnswers();
+      document.querySelectorAll('.choice').forEach((b,i)=>b.classList.toggle('selected',i===index));
+      setTimeout(()=>{current++;renderQuestion();},220);
+    }
+    function goBack(){if(current>0){current--;renderQuestion();}}
+    function renderMeasures(){
+      const m=answers[6]||{};
+      $('questionBox').innerHTML=`<div class="question"><div class="q-no">QUESTION 7</div><h2>体の数値を教えてください</h2><div class="measure-grid"><label class="measure">身長<div class="input-wrap"><input id="height" type="number" inputmode="decimal" min="120" max="220" step="0.1" value="${m.height||''}" placeholder="158" aria-label="身長"><span class="unit">cm</span></div></label><label class="measure">現在の体重<div class="input-wrap"><input id="weight" type="number" inputmode="decimal" min="30" max="250" step="0.1" value="${m.weight||''}" placeholder="55" aria-label="現在の体重"><span class="unit">kg</span></div></label><label class="measure">目標体重<div class="input-wrap"><input id="target" type="number" inputmode="decimal" min="30" max="250" step="0.1" value="${m.target||''}" placeholder="52" aria-label="目標体重"><span class="unit">kg</span></div></label></div><p id="bmiNotice" class="notice" role="alert"></p><button id="finish" class="primary measure-submit" type="button" disabled>結果を見る</button><button class="back" type="button">前の質問に戻る</button></div>`;
+      ['height','weight','target'].forEach(id=>$(id).addEventListener('input',validateMeasures));$('target').addEventListener('change',correctTarget);$('finish').onclick=finish;$('questionBox').querySelector('.back').onclick=goBack;validateMeasures();
+    }
+    function minHealthyWeight(height){return Math.ceil(18.5*Math.pow(height/100,2)*10)/10;}
+    function validateMeasures(){const h=+$('height').value,w=+$('weight').value,t=+$('target').value;$('finish').disabled=!(h>=120&&h<=220&&w>=30&&w<=250&&t>=30&&t<=250);if(h&&t&&t<minHealthyWeight(h))showTargetNotice(h);else{$('bmiNotice').classList.remove('show');}}
+    function showTargetNotice(h){const min=minHealthyWeight(h);$('bmiNotice').textContent=`健康を守るため、この身長では${min.toFixed(1)}kg以上を目標にしましょう`;$('bmiNotice').classList.add('show');return min;}
+    function correctTarget(){const h=+$('height').value,t=+$('target').value;if(h&&t&&t<minHealthyWeight(h)){$('target').value=showTargetNotice(h).toFixed(1);}}
+    function calculateType(){const scores=Object.fromEntries(Object.keys(TYPES).map(k=>[k,0]));answers.slice(0,6).forEach(a=>Object.entries(a.scores).forEach(([k,v])=>scores[k]+=v));const order=['rest','morning','belly','lower','upper','quick'];return order.reduce((best,k)=>scores[k]>scores[best]?k:best,order[0]);}
+    function finish(){correctTarget();validateMeasures();if($('finish').disabled)return;answers[6]={height:+$('height').value,weight:+$('weight').value,target:+$('target').value};saveAnswers();const type=calculateType();localStorage.setItem(RESULT_KEY,JSON.stringify({type,createdAt:new Date().toISOString()}));renderResult(type);}
+    function estimateMonths(weight,target){if(target>=weight)return '今の数値を保ちながら、動く習慣を育てていきましょう';const ratio=(weight-target)/weight;const low=Math.max(1,Math.ceil(ratio/.03)),high=Math.max(low,Math.ceil(ratio/.02));return `およそ${low===high?low:`${low}〜${high}`}か月`}
+    function renderResult(type){const t=TYPES[type],m=answers[6],period=estimateMonths(m.weight,m.target);$('typeName').textContent=t.name;$('typeDesc').textContent=t.desc;$('period').innerHTML=m.target<m.weight?`月に現在の体重の2〜3％を目安にすると、<br>目標までの期間は <b>${period}</b>`:`<b>${period}</b>`;$('firstMove').textContent=t.move;$('moveHow').textContent=t.how;$('bestTime').textContent=t.time;$('videoTheme').textContent=t.video;$('sharePreview').classList.remove('show');$('shareNote').textContent='';showView('result');}
+    function makeShareImage(){const raw=localStorage.getItem(RESULT_KEY);if(!raw)return;const t=TYPES[JSON.parse(raw).type],c=$('shareCanvas'),ctx=c.getContext('2d');const grad=ctx.createLinearGradient(0,0,1080,1350);grad.addColorStop(0,'#FFF1F1');grad.addColorStop(.52,'#FFFCFA');grad.addColorStop(1,'#E8F9F5');ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1350);ctx.fillStyle='rgba(255,122,138,.14)';ctx.beginPath();ctx.arc(1000,100,300,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(127,216,196,.18)';ctx.beginPath();ctx.arc(40,1260,330,0,Math.PI*2);ctx.fill();ctx.textAlign='center';ctx.fillStyle='#EF6074';ctx.font='800 58px sans-serif';ctx.fillText('GLOW28',540,140);ctx.fillStyle='#746D76';ctx.font='500 34px sans-serif';ctx.fillText('わたしの宅トレタイプは',540,315);ctx.fillStyle='#322D34';ctx.font='800 74px sans-serif';wrapText(ctx,t.name,540,455,900,98);ctx.fillStyle='#FFFFFF';roundRect(ctx,115,700,850,330,42);ctx.fill();ctx.fillStyle='#43A991';ctx.font='700 30px sans-serif';ctx.fillText('最初の1種目',540,795);ctx.fillStyle='#322D34';ctx.font='800 57px sans-serif';ctx.fillText(t.move,540,900);ctx.fillStyle='#746D76';ctx.font='500 27px sans-serif';ctx.fillText('今日の15秒から、小さく始めよう',540,970);ctx.fillStyle='#EF6074';ctx.font='700 32px sans-serif';ctx.fillText('@glow28_jp',540,1195);const url=c.toDataURL('image/png');$('sharePreview').src=url;$('sharePreview').classList.add('show');$('shareNote').textContent='画像を長押しして保存できます';$('sharePreview').scrollIntoView({behavior:'smooth',block:'center'});}
+    function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
+    function wrapText(ctx,text,x,y,maxWidth,lineHeight){let line='';const chars=[...text];const lines=[];chars.forEach(ch=>{if(ctx.measureText(line+ch).width>maxWidth){lines.push(line);line=ch}else line+=ch});lines.push(line);lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));}
+    function startFresh(){answers=[];current=0;localStorage.removeItem(ANSWERS_KEY);localStorage.removeItem(RESULT_KEY);showView('quiz');renderQuestion();}
+    $('start').onclick=()=>{const stored=JSON.parse(localStorage.getItem(ANSWERS_KEY)||'[]');answers=Array.isArray(stored)?stored:[];current=Math.min(answers.length,6);showView('quiz');renderQuestion();};
+    $('restart').onclick=startFresh;$('share').onclick=makeShareImage;$('xLink').href=X_PROFILE_URL;$('appLink').href=APP_URL;
+    try{const savedResult=JSON.parse(localStorage.getItem(RESULT_KEY)||'null'),savedAnswers=JSON.parse(localStorage.getItem(ANSWERS_KEY)||'[]');if(savedResult&&TYPES[savedResult.type]&&savedAnswers.length===7){answers=savedAnswers;renderResult(savedResult.type)}}catch(e){localStorage.removeItem(ANSWERS_KEY);localStorage.removeItem(RESULT_KEY)}
+  </script>
+</body>
+</html>
