@@ -79,6 +79,7 @@
     .footer{text-align:center;padding:28px 0 8px;color:#999096;font-size:12px}
     @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
     @media (max-width:374px){.shell{padding-inline:15px}h1{font-size:36px}.question h2{font-size:25px}.type-name{font-size:34px}}
+      .input-wrap input[type=number]{-moz-appearance:textfield}.input-wrap input[type=number]::-webkit-outer-spin-button,.input-wrap input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
   </style>
 </head>
 <body>
@@ -168,7 +169,7 @@
     function goBack(){if(current>0){current--;renderQuestion();}}
     function renderMeasures(){
       const m=answers[6]||{};
-      $('questionBox').innerHTML=`<div class="question"><div class="q-no">QUESTION 7</div><h2>体の数値を教えてください</h2><div class="measure-grid"><label class="measure">身長<div class="input-wrap"><input id="height" type="number" inputmode="decimal" min="120" max="220" step="0.1" value="${m.height||''}" placeholder="158" aria-label="身長"><span class="unit">cm</span></div></label><label class="measure">現在の体重<div class="input-wrap"><input id="weight" type="number" inputmode="decimal" min="30" max="250" step="0.1" value="${m.weight||''}" placeholder="55" aria-label="現在の体重"><span class="unit">kg</span></div></label><label class="measure">目標体重<div class="input-wrap"><input id="target" type="number" inputmode="decimal" min="30" max="250" step="0.1" value="${m.target||''}" placeholder="52" aria-label="目標体重"><span class="unit">kg</span></div></label></div><p id="bmiNotice" class="notice" role="alert"></p><button id="finish" class="primary measure-submit" type="button" disabled>結果を見る</button><button class="back" type="button">前の質問に戻る</button></div>`;
+      $('questionBox').innerHTML=`<div class="question"><div class="q-no">QUESTION 7</div><h2>体の数値を教えてください</h2><div class="measure-grid"><label class="measure">身長<div class="input-wrap"><input id="height" type="number" inputmode="decimal" step="0.1" value="${m.height||''}" placeholder="158" aria-label="身長"><span class="unit">cm</span></div></label><label class="measure">現在の体重<div class="input-wrap"><input id="weight" type="number" inputmode="decimal" step="0.1" value="${m.weight||''}" placeholder="55" aria-label="現在の体重"><span class="unit">kg</span></div></label><label class="measure">目標体重<div class="input-wrap"><input id="target" type="number" inputmode="decimal" step="0.1" value="${m.target||''}" placeholder="52" aria-label="目標体重"><span class="unit">kg</span></div></label></div><p id="bmiNotice" class="notice" role="alert"></p><button id="finish" class="primary measure-submit" type="button" disabled>結果を見る</button><button class="back" type="button">前の質問に戻る</button></div>`;
       ['height','weight','target'].forEach(id=>$(id).addEventListener('input',validateMeasures));$('target').addEventListener('change',correctTarget);$('finish').onclick=finish;$('questionBox').querySelector('.back').onclick=goBack;validateMeasures();
     }
     function minHealthyWeight(height){return Math.ceil(18.5*Math.pow(height/100,2)*10)/10;}
