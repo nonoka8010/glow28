@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GLOW28 TikTok Login</title>
+<style>
+:root{--coral:#ef6074;--ink:#322d34;--muted:#746d76;--paper:#fffdfc;--line:#f0e6e5}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(160deg,#fff4f3,#fffdfc 45%,#eefaf6);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;line-height:1.8;font-size:17px}
+main{max-width:760px;margin:0 auto;padding:40px 16px 64px}
+h1{font-size:30px;margin:0 0 4px;background:linear-gradient(90deg,#ef6074,#43bca2);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:20px;margin:32px 0 8px;border-left:4px solid var(--coral);padding-left:10px}
+.meta{color:var(--muted);font-size:14px}
+section{background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:16px;padding:8px 20px 16px;margin-top:20px;box-shadow:0 8px 24px rgba(239,96,116,.08)}
+a{color:var(--coral)}
+code{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;display:block;word-break:break-all;font-size:15px}
+</style>
+</head>
+<body><main>
+<h1>TikTok login</h1>
+<p class="meta">GLOW28 Auto Post</p>
+<section>
+<p id="msg">Reading the result...</p>
+<code id="code" hidden></code>
+</section>
+<script>
+const p=new URLSearchParams(location.search);
+const m=document.getElementById('msg'), c=document.getElementById('code');
+if(p.get('code')){m.textContent='Connected. Copy the code below into the GLOW28 tool on your computer. (このコードをパソコンの GLOW28 ツールに貼ってください)';c.textContent=p.get('code');c.hidden=false;}
+else if(p.get('error')){m.textContent='Login was not completed: '+p.get('error')+' (ログインできませんでした)';}
+else{m.textContent='This page receives the result of "Login with TikTok". (TikTok ログインの結果を受け取るページです)';}
+</script>
+</main></body></html>
