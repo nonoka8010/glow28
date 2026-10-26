@@ -27,7 +27,8 @@ code{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px
 <script>
 const p=new URLSearchParams(location.search);
 const m=document.getElementById('msg'), c=document.getElementById('code');
-if(p.get('code')){m.textContent='Connected. Copy the code below into the GLOW28 tool on your computer. (このコードをパソコンの GLOW28 ツールに貼ってください)';c.textContent=p.get('code');c.hidden=false;}
+if(p.get('code') && (p.get('state')||'').startsWith('local-')){m.textContent='Returning to GLOW28 Auto Post...';location.replace('http://localhost:8728/callback?'+p.toString());}
+else if(p.get('code')){m.textContent='Connected. Copy the code below into the GLOW28 tool on your computer. (このコードをパソコンの GLOW28 ツールに貼ってください)';c.textContent=p.get('code');c.hidden=false;}
 else if(p.get('error')){m.textContent='Login was not completed: '+p.get('error')+' (ログインできませんでした)';}
 else{m.textContent='This page receives the result of "Login with TikTok". (TikTok ログインの結果を受け取るページです)';}
 </script>
